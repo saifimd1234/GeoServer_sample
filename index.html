@@ -11,6 +11,9 @@
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
   <!-- Custom CSS -->
   <link rel="stylesheet" href="styles/style.css">
 </head>
@@ -53,125 +56,75 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Your JS -->
+  <script src="scripts/main.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planet Explorer Clone</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1">My Company</span>
+    </div>
+  </nav>
+
+  <!-- Sidebar + Map -->
+  <div class="d-flex">
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar collapsed">
+      <div class="menu">
+        <button class="menu-btn" data-section="basemaps" title="Basemaps">
+          <i class="bi bi-map"></i>
+        </button>
+        <button class="menu-btn" data-section="daily" title="Daily Results">
+          <i class="bi bi-calendar-day"></i>
+        </button>
+        <button class="menu-btn" data-section="layers" title="Layers">
+          <i class="bi bi-layers"></i>
+        </button>
+        <button class="menu-btn" data-section="settings" title="Settings">
+          <i class="bi bi-gear"></i>
+        </button>
+      </div>
+      <div class="menu-content">
+        <h5 id="menu-title">Menu</h5>
+        <div id="menu-body">Select an option from the left</div>
+      </div>
+    </div>
+
+    <!-- Map -->
+    <div id="map"></div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-  <!-- Script -->
-  <script>
-    // ================================
-    // 🔹 GeoServer Variables
-    // ================================
-    const geoserverUrl = "http://localhost:8080/geoserver";  // Base GeoServer URL
-    const workspace = "Files";                               // Your workspace
-    const layerKadma = "Kadma_2022";                         // Main layer
-
-    // ================================
-    // 🔹 Basemaps
-    // ================================
-    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap'
-    });
-
-    const esriSat = L.tileLayer(
-      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-      { attribution: 'Tiles © Esri' }
-    );
-
-    const cartoLight = L.tileLayer(
-      'https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png',
-      { attribution: '© CARTO' }
-    );
-
-    const stamenTonerLite = L.tileLayer(
-      'https://stamen-tiles.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png',
-      { attribution: '© Stamen, OSM' }
-    );
-
-    // ================================
-    // 🔹 Map Init
-    // ================================
-    const map = L.map('map', {
-      center: [20.5937, 78.9629],
-      zoom: 5,
-      layers: [osm]
-    });
-
-    // ================================
-    // 🔹 GeoServer Overlay (Kadma 2022)
-    // ================================
-    const kadmaOverlay = L.tileLayer.wms(`${geoserverUrl}/${workspace}/wms`, {
-      layers: `${workspace}:${layerKadma}`,
-      format: "image/png",
-      transparent: true
-    });
-
-    // ================================
-    // 🔹 Layer Controls
-    // ================================
-    const baseMaps = {
-      "OpenStreetMap": osm,
-      "Esri Satellite": esriSat,
-      "Carto Light": cartoLight,
-      "Stamen Toner Lite": stamenTonerLite
-    };
-
-    const overlayMaps = {
-      "Kadma 2022": kadmaOverlay
-    };
-
-    L.control.layers(baseMaps, overlayMaps, { position: 'bottomright' }).addTo(map);
-
-    // ================================
-    // 🔹 FlyTo Function
-    // ================================
-    function flyToKadma() {
-      // bbox from your WMS request: EPSG:32645
-      const bounds = L.latLngBounds([
-        [22.685, 85.820],  // approx SW corner (convert from your bbox)
-        [22.765, 86.010]   // approx NE corner
-      ]);
-      map.flyToBounds(bounds, { duration: 2 });
-      kadmaOverlay.addTo(map); // ensure layer is added
-    }
-
-    // ================================
-    // 🔹 Sidebar Interaction
-    // ================================
-    const sidebar = document.getElementById("sidebar");
-    const menuTitle = document.getElementById("menu-title");
-    const menuBody = document.getElementById("menu-body");
-
-    document.querySelectorAll(".menu-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        sidebar.classList.toggle("collapsed");
-        const section = btn.getAttribute("data-section");
-
-        if (section === "basemaps") {
-          menuTitle.textContent = "Basemaps";
-          menuBody.innerHTML = "<p>Switch between different basemaps using the control on the map.</p>";
-        } else if (section === "daily") {
-          menuTitle.textContent = "Daily Results";
-          menuBody.innerHTML = "<p>Here you can display daily updated satellite results.</p>";
-        } else if (section === "layers") {
-          menuTitle.textContent = "Layers";
-          menuBody.innerHTML = `
-            <p>Manage custom overlays:</p>
-            <button class="btn btn-sm btn-primary mt-2" onclick="flyToKadma()">Zoom to Kadma 2022</button>
-          `;
-        } else if (section === "settings") {
-          menuTitle.textContent = "Settings";
-          menuBody.innerHTML = "<p>Adjust your map preferences here.</p>";
-        }
-      });
-    });
-
-    // Collapse sidebar when clicking outside
-    map.on("click", () => {
-      sidebar.classList.add("collapsed");
-    });
-  </script>
+  <!-- Your JS -->
+  <script src="scripts/main.js"></script>
 </body>
 </html>
