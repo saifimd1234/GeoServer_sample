@@ -5,7 +5,7 @@ const menuBody = document.getElementById("menu-body");
 
 document.querySelectorAll(".menu-btn").forEach(btn => {
   btn.addEventListener("click", () => {
-    sidebar.classList.add("expanded"); // expand when clicked
+    sidebar.classList.toggle("expanded"); // Toggle expand/collapse
     const section = btn.getAttribute("data-section");
 
     if (section === "basemaps") {
