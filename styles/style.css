@@ -1,3 +1,4 @@
+/* Reset */
 body, html {
   margin: 0;
   height: 100%;
@@ -10,30 +11,35 @@ body, html {
   height: calc(100vh - 56px);
 }
 
-/* Sidebar */
+/* Sidebar (collapsed by default) */
 .sidebar {
+  width: 60px;                  /* collapsed width = icons only */
+  display: flex;
+  flex-direction: row;          /* icons + content side by side */
+  transition: width 0.3s ease;
+  overflow: hidden;
   background: #f8f9fa;
   border-right: 1px solid #ddd;
-  width: 250px;
-  transition: width 0.3s;
-  display: flex;
-  flex-direction: row;
 }
 
-.sidebar.collapsed {
-  width: 60px;
+/* Expanded state */
+.sidebar.expanded {
+  width: 250px;                 /* expand to show content */
 }
 
+/* Menu (always visible) */
 .sidebar .menu {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 10px;
-  width: 60px;
+  width: 60px;                  /* fixed for icons */
   background: #fff;
   border-right: 1px solid #ddd;
+  flex-shrink: 0;
 }
 
+/* Menu buttons (icons) */
 .menu-btn {
   background: none;
   border: none;
@@ -42,13 +48,20 @@ body, html {
   cursor: pointer;
 }
 
+/* Menu content (hidden by default) */
 .menu-content {
   flex: 1;
   padding: 15px;
   overflow-y: auto;
+  display: none;                /* start hidden */
 }
 
-/* Map */
+/* Only show content when expanded */
+.sidebar.expanded .menu-content {
+  display: block;
+}
+
+/* Map takes remaining space */
 #map {
   flex: 1;
   height: 100%;
