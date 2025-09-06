@@ -2,6 +2,7 @@
 const sidebar = document.getElementById("sidebar");
 const menuTitle = document.getElementById("menu-title");
 const menuBody = document.getElementById("menu-body");
+const mapDiv = document.getElementById("map");
 
 document.querySelectorAll(".menu-btn").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -41,4 +42,11 @@ document.querySelectorAll(".menu-btn").forEach(btn => {
     // Refresh Leaflet map after sidebar animation
     setTimeout(() => map.invalidateSize(), 300);
   });
+});
+
+mapDiv.addEventListener("click", () => {
+  if (sidebar.classList.contains("expanded")) {
+    sidebar.classList.remove("expanded");
+    sidebar.classList.add("collapsed");
+  }
 });
