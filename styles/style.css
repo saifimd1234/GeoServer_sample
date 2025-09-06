@@ -1,0 +1,56 @@
+body, html {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Push content below navbar */
+.d-flex {
+  margin-top: 56px; /* height of navbar */
+  height: calc(100vh - 56px);
+}
+
+/* Sidebar */
+.sidebar {
+  background: #f8f9fa;
+  border-right: 1px solid #ddd;
+  width: 250px;
+  transition: width 0.3s;
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+}
+
+.sidebar .menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+  width: 60px;
+  background: #fff;
+  border-right: 1px solid #ddd;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  margin: 10px 0;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.menu-content {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+/* Map */
+#map {
+  flex: 1;
+  height: 100%;
+  width: 100%;
+}
