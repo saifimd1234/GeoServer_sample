@@ -22,11 +22,6 @@ body, html {
   border-right: 1px solid #ddd;
 }
 
-/* Expanded state */
-.sidebar.expanded {
-  width: 250px;                 /* expand to show content */
-}
-
 /* Menu (always visible) */
 .sidebar .menu {
   display: flex;
@@ -59,6 +54,20 @@ body, html {
 /* Only show content when expanded */
 .sidebar.expanded .menu-content {
   display: block;
+}
+
+/* Expanded state */
+.sidebar.expanded {
+  width: 250px;                 /* expand to show content */
+}
+
+/* Sidebar collapsed (icons only, no content) */
+.sidebar.collapsed {
+  width: 60px;
+}
+
+.sidebar.collapsed .menu-content {
+  display: none;
 }
 
 /* Map takes remaining space */
