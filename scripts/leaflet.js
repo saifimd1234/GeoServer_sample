@@ -43,7 +43,7 @@ const baseMaps = {
 };
 const overlayMaps = { "Kadma 2022": kadmaOverlay };
 
-L.control.layers(baseMaps, overlayMaps, { position: 'bottomright' }).addTo(map);
+// L.control.layers(baseMaps, overlayMaps, { position: 'bottomright' }).addTo(map);
 
 // FlyTo function
 function flyToKadma() {
